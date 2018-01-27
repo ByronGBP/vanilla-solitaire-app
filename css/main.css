@@ -1,0 +1,28 @@
+/* ---- reset ---- */
+
+html {
+  box-sizing: border-box;
+}
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+/* ---- typography ---- */
+
+body {
+    border: 1px solid black;
+}
+
+h1 {}
+
+h2 {}
+
+h3 {}
+
+/* ---- layout ---- */
+
+#game-element {
+    border:inherit;
+}
+
+/* ---- components ---- */
