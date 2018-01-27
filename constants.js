@@ -1,0 +1,2 @@
+
+var byQuery = new byQuery();
