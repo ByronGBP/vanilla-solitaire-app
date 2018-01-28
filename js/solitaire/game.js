@@ -2,9 +2,8 @@ function Game (mainElement) {
 
     this.mainElement = mainElement;
     this.gameElement;
-    this.buttonGameOverElement;
 
-    this.solitaireLayaout;
+    this.layout;
     this.gameOver;
 
     var self = this;
@@ -16,35 +15,28 @@ function Game (mainElement) {
 }
 
 Game.prototype.init = function () {
-    this.solitaireLayaout = new Layaout;
-    this._setupGameElement();
-    this._buildGame();
+    this._setupGameLayout();
 }
 
 Game.prototype.onGameOver = function (callback) {
     this.gameOver = callback;
 }
 
-Game.prototype._setupGameElement = function () {
-    this.gameElement = byQuery.createDiv();
-    byQuery.setIdTo(this.gameElement, 'game-element');
-    this.mainElement.appendChild(this.gameElement);
+Game.prototype._setupGameLayout = function () {
+    this._buildTemplate();
+    this._setEventListeners();
 }
 
-Game.prototype._buildGame = function () {
-
-    this._setupButtonGameOverElement();
-
+Game.prototype._buildTemplate = function() {
+    this.layout = new Layout();
+    this.mainElement.appendChild(this.layout.containerElement);
 }
 
-Game.prototype._setupButtonGameOverElement =  function () {
-    this.buttonGameOverElement = byQuery.createButton();
-    byQuery.setTextTo(this.buttonGameOverElement, 'Game Over');
-    byQuery.addEventClickTo(this.buttonGameOverElement, this._handleClickGameOver);
-    this.gameElement.appendChild(this.buttonGameOverElement);
+Game.prototype._setEventListeners = function () {
+    byQuery.addEventClickTo(this.layout.getButton(), this._handleClickGameOver);
 }
 
 Game.prototype.destroy = function () {
-    this.gameElement.remove();
-    this.buttonGameOverElement.removeEventListener('click', this._handleClickGameOver);
+    this.layout.containerElement.remove();
+    byQuery.removeEventClickTo(this.layout.getButton(), this._handleClickGameOver);
 }
