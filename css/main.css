@@ -13,16 +13,15 @@ body {
     border: 1px solid black;
 }
 
-h1 {}
-
-h2 {}
-
-h3 {}
-
 /* ---- layout ---- */
 
+#splash-element {
+}
+
 #game-element {
-    border:inherit;
+}
+
+#gameover-element {
 }
 
 /* ---- components ---- */
