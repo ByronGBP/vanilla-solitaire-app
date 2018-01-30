@@ -26,8 +26,10 @@ SolitaireTemplate.prototype._buildTopElement = function () {
 
 SolitaireTemplate.prototype._buildBottomElement = function () {
   this.bottomElement = byQuery.generateDiv('bottom-element');
+  var pileContainer = byQuery.generateDiv('bottom-center-element');
   var arrayDivs = this._generateDivs(this.NUMBER_PILE, 'pile-card', 'card');
-  byQuery.appendTo(this.bottomElement, arrayDivs);
+  byQuery.appendTo(pileContainer, arrayDivs);
+  byQuery.appendTo(this.bottomElement, pileContainer);
   this._addChildToContainer(this.bottomElement);
 };
 
