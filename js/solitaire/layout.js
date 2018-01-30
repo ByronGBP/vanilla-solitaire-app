@@ -6,7 +6,7 @@ function Layout () {
 }
 
 Layout.prototype._build = function () {
-  this.containerElement = byQuery.createDivWithId('game-element');
+  this.containerElement = byQuery.generateDiv('game-element');
   this.template = new SolitaireTemplate(this.containerElement);
 };
 
