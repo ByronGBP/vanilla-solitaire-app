@@ -34,6 +34,10 @@ byQuery.prototype.removeEventClickTo = function (elem, callback) {
   this._removeEventTo(elem, 'click', callback);
 };
 
+byQuery.prototype.getChildrenFrom = function (elem, pos) {
+  return elem.children[pos];
+};
+
 byQuery.prototype.getById = function (id) {
   return document.getElementById(id);
 };
