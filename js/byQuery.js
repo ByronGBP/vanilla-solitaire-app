@@ -18,16 +18,6 @@ byQuery.prototype.generateDiv = function (id, className) {
   return div;
 };
 
-byQuery.prototype.createDivsWithProgressiveId = function (numberDivs, baseId) {
-  var arrayDivs = [];
-  for (var i = 0; i < numberDivs; i++) {
-    var newDiv = this.generateDiv(baseId + i);
-    arrayDivs.push(newDiv);
-  }
-
-  return arrayDivs;
-};
-
 byQuery.prototype.appendTo = function (elem, childs) {
   childs = this._parseToArray(childs);
 
@@ -95,5 +85,5 @@ byQuery.prototype._removeEventTo = function (elem, event, callback) {
 };
 
 byQuery.prototype._parseToArray = function (item) {
-  return item.length ? item : [item];
+  return item.length && typeof item === 'object' ? item : [item];
 };
