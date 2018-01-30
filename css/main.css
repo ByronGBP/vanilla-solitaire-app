@@ -23,7 +23,7 @@ html {
   margin: 10px;
 }
 
-#top-element, #bottom-element, #top-right-element, #top-left-element {
+#top-element, #bottom-center-element, #top-right-element, #top-left-element {
   display: flex;
 }
 
