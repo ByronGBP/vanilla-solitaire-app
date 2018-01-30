@@ -28,7 +28,7 @@ Game.prototype._setupGameLayout = function () {
 
 Game.prototype._buildTemplate = function () {
   this.layout = new Layout();
-  this.mainElement.appendChild(this.layout.containerElement);
+  byQuery.appendTo(this.mainElement, this.layout.containerElement);
 };
 
 Game.prototype._setEventListeners = function () {
