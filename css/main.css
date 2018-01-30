@@ -7,21 +7,32 @@ html {
   box-sizing: inherit;
 }
 
-/* ---- typography ---- */
+/* ---- TYPOGRAPHY ---- */
 
-body {
+/* ---- LAYOUT ---- */
+* {
     border: 1px solid black;
 }
+/* -- splash -- */
 
-/* ---- layout ---- */
+/* -- game -- */
 
-#splash-element {
+.card {
+  width: 10vw;
+  height: 20vh;
+  margin: 10px;
 }
 
-#game-element {
+#top-element, #bottom-element, #top-right-element, #top-left-element {
+  display: flex;
 }
 
-#gameover-element {
+#top-element, #bottom-element {
+  justify-content: space-between;
+  padding: 10px;
 }
 
-/* ---- components ---- */
+/* -- gameover -- */
+
+
+/* ---- COMPONENTS ---- */
