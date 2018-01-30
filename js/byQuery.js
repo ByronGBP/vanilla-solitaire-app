@@ -27,7 +27,10 @@ byQuery.prototype.appendTo = function (elem, childs) {
 };
 
 byQuery.prototype.addEventClickTo = function (elem, callback) {
-  this._addEventTo(elem, 'click', callback);
+  elem = this._parseToArray(elem);
+  for (var i = 0; i < elem.length; i++) {
+    this._addEventTo(elem[i], 'click', callback);
+  }
 };
 
 byQuery.prototype.removeEventClickTo = function (elem, callback) {
