@@ -11,6 +11,14 @@ byQuery.prototype.generateButton = function (text, id, className) {
   return button;
 };
 
+byQuery.prototype.generateText = function (elemType, text, className, id) {
+  var elem = this._createNew(elemType);
+  this._setTextTo(elem, text);
+  this._addClassTo(elem, className);
+  this._setIdTo(elem, id);
+  return elem;
+};
+
 byQuery.prototype.generateDiv = function (id, className) {
   var div = this._createDiv();
   this._setIdTo(div, id);
@@ -23,6 +31,12 @@ byQuery.prototype.appendTo = function (elem, childs) {
 
   for (var i = 0; i < childs.length; i++) {
     elem.appendChild(childs[i]);
+  }
+};
+
+byQuery.prototype.removeChildrenFrom = function (elem) {
+  while (elem.firstChild) {
+    elem.removeChild(elem.firstChild);
   }
 };
 
