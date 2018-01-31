@@ -26,15 +26,22 @@ byQuery.prototype.appendTo = function (elem, childs) {
   }
 };
 
-byQuery.prototype.addEventClickTo = function (elem, callback) {
-  elem = this._parseToArray(elem);
-  for (var i = 0; i < elem.length; i++) {
-    this._addEventTo(elem[i], 'click', callback);
+byQuery.prototype.remove = function (elem) {
+  elem.remove();
+};
+
+byQuery.prototype.addEventClickTo = function (elems, callback) {
+  elems = this._parseToArray(elems);
+  for (var i = 0; i < elems.length; i++) {
+    this._addEventTo(elems[i], 'click', callback);
   }
 };
 
-byQuery.prototype.removeEventClickTo = function (elem, callback) {
-  this._removeEventTo(elem, 'click', callback);
+byQuery.prototype.removeEventClickTo = function (elems, callback) {
+  elems = this._parseToArray(elems);
+  for (var i = 0; i < elems.length; i++) {
+    this._removeEventTo(elems[i], 'click', callback);
+  }
 };
 
 byQuery.prototype.getChildrenFrom = function (elem, pos) {
