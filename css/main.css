@@ -21,6 +21,7 @@ html {
   width: 10vw;
   height: 25vh;
   margin: 10px;
+  text-align: center;
 }
 
 #top-element, #bottom-center-element, #top-right-element, #top-left-element {
@@ -30,6 +31,10 @@ html {
 #top-element, #bottom-center-element {
   justify-content: space-between;
   padding: 10px;
+}
+
+#flipped-cards .card {
+  margin: 0px;
 }
 
 /* -- gameover -- */

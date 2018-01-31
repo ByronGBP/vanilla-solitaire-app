@@ -10,6 +10,40 @@ function Layout () {
   this._build();
 }
 
+Layout.prototype.showCardOnFlipped = function (value, suit) {
+  this._showCardOn('flipped', value, suit);
+};
+
+Layout.prototype.removeCardOnFlipped = function () {
+  this._removeCardOn('flipped');
+};
+
+Layout.prototype._showCardOn = function (elem, value, suit) {
+  var cardElem = this._createCard(value, suit);
+  switch (elem) {
+  case 'flipped':
+    this._removeCardOn('flipped');
+    byQuery.appendTo(this.flippedCardElement, cardElem);
+    break;
+  }
+};
+
+Layout.prototype._removeCardOn = function (elem) {
+  switch (elem) {
+  case 'flipped':
+    byQuery.removeChildrenFrom(this.flippedCardElement);
+    break;
+  }
+};
+
+Layout.prototype._createCard = function (value, suit) {
+  var divCard = byQuery.generateDiv(null, 'card');
+  var suitElem = byQuery.generateText('h3', suit);
+  var valueElem = byQuery.generateText('h3', value);
+  byQuery.appendTo(divCard, [suitElem, valueElem]);
+  return divCard;
+};
+
 Layout.prototype._build = function () {
   this.containerElement = byQuery.generateDiv('game-element');
   this.template = new SolitaireTemplate(this.containerElement);
