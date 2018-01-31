@@ -3,6 +3,7 @@ function Game (mainElement) {
   this.gameElement = null;
 
   this.layout = null;
+  this.data = null;
   this.gameOver = null;
 
   var self = this;
@@ -15,6 +16,7 @@ function Game (mainElement) {
 
 Game.prototype.init = function () {
   this._setupGameLayout();
+  this._setupGameData();
 };
 
 Game.prototype.onGameOver = function (callback) {
@@ -24,6 +26,10 @@ Game.prototype.onGameOver = function (callback) {
 Game.prototype._setupGameLayout = function () {
   this._buildTemplate();
   this._setEventListeners();
+};
+
+Game.prototype._setupGameData = function () {
+  this.data = new Data();
 };
 
 Game.prototype._buildTemplate = function () {
