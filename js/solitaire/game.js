@@ -5,6 +5,7 @@ function Game (mainElement) {
   this.data = null;
   this.gameOver = null;
   this.previousMovement = null;
+  this.previousCard = null;
 
   var self = this;
   self._handleClickGameOver = function () {
@@ -20,6 +21,13 @@ function Game (mainElement) {
     self._computeMovementClick(clickId);
   };
 
+  self._handleCardClick = function (e) {
+    console.log(e.currentTarget.id);
+    if (!self.previousCard) {
+      self.previousCard = e.currentTarget.id;
+    }
+  };
+
   this.init();
 }
 
@@ -33,6 +41,7 @@ Game.prototype._computeMovementClick = function (clickId) {
   if (this.previousMovement) {
     this._computeMovement(this.previousMovement, clickId);
     this.previousMovement = null;
+    this.previousCard = null;
   } else {
     this.previousMovement = clickId;
   }
@@ -41,7 +50,7 @@ Game.prototype._computeMovementClick = function (clickId) {
 Game.prototype._computeMovement = function (origin, destination) {
   var self = this;
   console.log(origin, destination);
-  self.data.getCardsFrom(origin, function (cards, remainderCards) {
+  self.data.getCardsFrom(origin, this.previousCard, function (cards, remainderCards) {
     if (cards.length > 0) {
       self.data.addCardsTo(destination, cards, function (addedCards) {
         self.layout.showCardsOn(origin, remainderCards);
@@ -57,7 +66,8 @@ Game.prototype._computeMovement = function (origin, destination) {
 Game.prototype._computeStackClick = function () {
   var self = this;
   self.previousMovement = null;
-  self.data.getCardsFrom(TYPE.stack, function (cards) {
+  self.previousCard = null;
+  self.data.getCardsFrom(TYPE.stack, '0', function (cards) {
     if (cards.length > 0) {
       self.layout.showCardsOn(TYPE.flipped, cards);
     } else {
@@ -72,7 +82,7 @@ Game.prototype.onGameOver = function (callback) {
 };
 
 Game.prototype._setupGameLayout = function () {
-  this.layout = new Layout();
+  this.layout = new Layout(this._handleCardClick);
   byQuery.appendTo(this.mainElement, this.layout.containerElement);
 };
 

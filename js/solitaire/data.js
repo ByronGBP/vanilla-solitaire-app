@@ -12,19 +12,20 @@ Data.prototype._init = function () {
   this._shuffleCards();
 };
 
-Data.prototype.getCardsFrom = function (origin, callback) {
+Data.prototype.getCardsFrom = function (origin, idCard, callback) {
   var cards = null;
+  var idx = this._getIdxFromId(idCard) + 1;
   if (origin.includes(TYPE.flipped)) {
-    cards = this._getCardsFrom(this.flippedCards, 0, origin);
+    cards = this._getCardsFrom(this.flippedCards, idx, origin);
     callback(cards, this.flippedCards[origin]);
   } else if (origin.includes(TYPE.ace)) {
-    cards = this._getCardsFrom(this.aceSpaceCards, 0, origin);
+    cards = this._getCardsFrom(this.aceSpaceCards, idx, origin);
     callback(cards, this.aceSpaceCards[origin]);
   } else if (origin.includes(TYPE.pile)) {
-    cards = this._getCardsFrom(this.pileSpaceCards, 0, origin);
+    cards = this._getCardsFrom(this.pileSpaceCards, idx, origin);
     callback(cards, this.pileSpaceCards[origin]);
   } else if (origin.includes(TYPE.stack)) {
-    cards = this._getCardsFrom(this.stackCards, 0, origin);
+    cards = this._getCardsFrom(this.stackCards, idx, origin);
     if (cards.length > 0) {
       this._pushCardsTo(this.flippedCards, cards, TYPE.flipped);
     }
@@ -49,6 +50,10 @@ Data.prototype.restartStackCards = function () {
   }
 };
 
+Data.prototype._getIdxFromId = function (id) {
+  return Number(id.slice(-1));
+};
+
 Data.prototype._getCardsFrom = function (deck, idx, origin) {
   var cards = [];
   this._checkObject(deck, origin);
@@ -56,8 +61,8 @@ Data.prototype._getCardsFrom = function (deck, idx, origin) {
     return cards;
   }
 
-  for (var i = 0; i <= idx; i++) {
-    cards.push(deck[origin].shift());
+  for (var i = 0; i < idx; i++) {
+    cards.unshift(deck[origin].shift());
   }
   return cards;
 };
