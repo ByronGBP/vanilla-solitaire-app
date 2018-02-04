@@ -66,6 +66,13 @@ byQuery.prototype.getById = function (id) {
   return document.getElementById(id);
 };
 
+byQuery.prototype.changeBorderColor = function (elemId, color) {
+  var element = this.getById(elemId);
+  if (element) {
+    element.style.borderColor = color;
+  }
+};
+
 byQuery.prototype._createNew = function (elem) {
   return document.createElement(elem);
 };
