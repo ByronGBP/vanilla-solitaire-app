@@ -42,9 +42,13 @@ Game.prototype._computeMovementClick = function (clickId) {
   if (self.previousMovement) {
     self._computeMovement(self.previousMovement, clickId);
     self._resetMovement();
-  } else {
+  } else if (self._isValidClick(clickId)) {
     self.previousMovement = clickId;
   }
+};
+
+Game.prototype._isValidClick = function (clickId) {
+  return byQuery.getById(clickId).children.length > 0;
 };
 
 Game.prototype._computeMovement = function (origin, destination) {
