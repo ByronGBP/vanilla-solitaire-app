@@ -27,7 +27,7 @@ SolitaireTemplate.prototype._buildTopElement = function () {
 SolitaireTemplate.prototype._buildBottomElement = function () {
   this.bottomElement = byQuery.generateDiv('bottom-element');
   var pileContainer = byQuery.generateDiv('bottom-center-element');
-  var arrayDivs = this._generateDivs(this.NUMBER_PILE, 'pile-space-', 'card');
+  var arrayDivs = this._generateDivs(this.NUMBER_PILE, TYPE.pile, TYPE.card);
   byQuery.appendTo(pileContainer, arrayDivs);
   byQuery.appendTo(this.bottomElement, pileContainer);
   this._addChildToContainer(this.bottomElement);
@@ -40,8 +40,8 @@ SolitaireTemplate.prototype._buildButton = function () {
 
 SolitaireTemplate.prototype._buildTopLeftElement = function () {
   var leftElement = byQuery.generateDiv('top-left-element');
-  var stackElement = byQuery.generateDiv('stack-cards', 'card');
-  var flippedElement = byQuery.generateDiv('flipped-cards', 'card');
+  var stackElement = byQuery.generateDiv(TYPE.stack, TYPE.card);
+  var flippedElement = byQuery.generateDiv(TYPE.flipped, TYPE.card);
   byQuery.appendTo(leftElement, [stackElement, flippedElement]);
 
   return leftElement;
@@ -49,7 +49,7 @@ SolitaireTemplate.prototype._buildTopLeftElement = function () {
 
 SolitaireTemplate.prototype._buildTopRighttElement = function () {
   var rightElement = byQuery.generateDiv('top-right-element');
-  var arrayDivs = this._generateDivs(this.NUMBER_ACE, 'ace-space-', 'card');
+  var arrayDivs = this._generateDivs(this.NUMBER_ACE, TYPE.ace, TYPE.card);
   byQuery.appendTo(rightElement, arrayDivs);
 
   return rightElement;
