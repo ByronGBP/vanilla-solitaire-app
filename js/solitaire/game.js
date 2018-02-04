@@ -4,6 +4,7 @@ function Game (mainElement) {
   this.layout = null;
   this.data = null;
   this.gameOver = null;
+  this.previousMovement = null;
 
   var self = this;
   self._handleClickGameOver = function () {
@@ -14,16 +15,9 @@ function Game (mainElement) {
     self._computeStackClick();
   };
 
-  self._handleClickFlippedCard = function (e) {
-    console.log(e.currentTarget.id);
-  };
-
-  self._handleClickAceSpace = function (e) {
-    console.log(e.currentTarget.id);
-  };
-
-  self._handleClickPileSpace = function (e) {
-    console.log(e.currentTarget.id);
+  self._handleMovementClick = function (e) {
+    var clickId = e.currentTarget.id;
+    self._computeMovementClick(clickId);
   };
 
   this.init();
@@ -35,16 +29,41 @@ Game.prototype.init = function () {
   this._setEventListeners();
 };
 
+Game.prototype._computeMovementClick = function (clickId) {
+  if (this.previousMovement) {
+    this._computeMovement(this.previousMovement, clickId);
+    this.previousMovement = null;
+  } else {
+    this.previousMovement = clickId;
+  }
+};
+
+Game.prototype._computeMovement = function (origin, destination) {
+  var self = this;
+  console.log(origin, destination);
+  self.data.getCardsFrom(origin, function (cards, remainderCards) {
+    if (cards.length > 0) {
+      self.data.addCardsTo(destination, cards, function (addedCards) {
+        self.layout.showCardsOn(origin, remainderCards);
+        self.layout.showCardsOn(destination, addedCards);
+      });
+    }
+  });
+  console.log(self.data.flippedCards);
+  console.log(self.data.pileSpaceCards);
+  console.log(self.data.aceSpaceCards);
+};
+
 Game.prototype._computeStackClick = function () {
   var self = this;
-  self.data.getNextCardFromStack(function (card) {
-    if (card) {
-      self.layout.showCardOnFlipped(card.value, card.suit);
+  self.previousMovement = null;
+  self.data.getCardsFrom(TYPE.stack, function (cards) {
+    if (cards.length > 0) {
+      self.layout.showCardsOn(TYPE.flipped, cards);
     } else {
       self.data.restartStackCards();
       self.layout.removeCardOnFlipped();
     }
-    console.log('Flipped ', self.data.flippedCards, 'Stack ', self.data.stackCards);
   });
 };
 
@@ -64,17 +83,17 @@ Game.prototype._setupGameData = function () {
 Game.prototype._setEventListeners = function () {
   byQuery.addEventClickTo(this.layout.button, this._handleClickGameOver);
   byQuery.addEventClickTo(this.layout.stackCardElement, this._handleStackCardClick);
-  byQuery.addEventClickTo(this.layout.flippedCardElement, this._handleClickFlippedCard);
-  byQuery.addEventClickTo(this.layout.aceSpaceElement.children, this._handleClickAceSpace);
-  byQuery.addEventClickTo(this.layout.pileSpaceElement.children, this._handleClickPileSpace);
+  byQuery.addEventClickTo(this.layout.flippedCardElement, this._handleMovementClick);
+  byQuery.addEventClickTo(this.layout.aceSpaceElement.children, this._handleMovementClick);
+  byQuery.addEventClickTo(this.layout.pileSpaceElement.children, this._handleMovementClick);
 };
 
 Game.prototype._removeEventListeners = function () {
   byQuery.removeEventClickTo(this.layout.button, this._handleClickGameOver);
-  byQuery.removeEventClickTo(this.layout.stackCardElement, this._handleStackCardClick);
-  byQuery.removeEventClickTo(this.layout.flippedCardElement, this._handleClickFlippedCard);
-  byQuery.removeEventClickTo(this.layout.aceSpaceElement.children, this._handleClickAceSpace);
-  byQuery.removeEventClickTo(this.layout.pileSpaceElement.children, this._handleClickPileSpace);
+  byQuery.removeEventClickTo(this.layout.stackCardElement, this._handleMovementClick);
+  byQuery.removeEventClickTo(this.layout.flippedCardElement, this._handleMovementClick);
+  byQuery.removeEventClickTo(this.layout.aceSpaceElement.children, this._handleMovementClick);
+  byQuery.removeEventClickTo(this.layout.pileSpaceElement.children, this._handleMovementClick);
 };
 
 Game.prototype.destroy = function () {

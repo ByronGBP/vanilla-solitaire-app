@@ -61,8 +61,9 @@ var CARDS = [
 ];
 
 var TYPE = {
-  flipped: 'flipped',
-  ace: 'ace',
-  stack: 'stack',
-  pile: 'pile'
+  flipped: 'flipped-cards',
+  stack: 'stack-cards',
+  ace: 'ace-space-',
+  pile: 'pile-space-',
+  card: 'card'
 };

@@ -33,7 +33,7 @@ html {
   padding: 10px;
 }
 
-#flipped-cards .card {
+#flipped-cards .card, [id*="space"] .card {
   margin: 0px;
 }
 

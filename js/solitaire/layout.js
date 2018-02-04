@@ -10,30 +10,48 @@ function Layout () {
   this._build();
 }
 
-Layout.prototype.showCardOnFlipped = function (value, suit) {
-  this._showCardOn(TYPE.flipped, value, suit);
+Layout.prototype.showCardsOn = function (destination, cards) {
+  var childElement = null;
+  if (destination.includes(TYPE.flipped)) {
+    this._showCardsOn(this.flippedCardElement, cards, true);
+  } else if (destination.includes(TYPE.ace)) {
+    childElement = this._getChildFrom(destination);
+    this._showCardsOn(childElement, cards, true);
+  } else if (destination.includes(TYPE.pile)) {
+    childElement = this._getChildFrom(destination);
+    this._showCardsOn(childElement, cards, false);
+  }
 };
 
 Layout.prototype.removeCardOnFlipped = function () {
-  this._removeCardOn(TYPE.flipped);
+  this._removeCardsOn(this.flippedCardElement);
 };
 
-Layout.prototype._showCardOn = function (elem, value, suit) {
-  var cardElem = this._createCard(value, suit);
-  switch (elem) {
-  case TYPE.flipped:
-    this._removeCardOn(TYPE.flipped);
-    byQuery.appendTo(this.flippedCardElement, cardElem);
-    break;
+Layout.prototype._getChildFrom = function (id) {
+  return byQuery.getById(id);
+};
+
+Layout.prototype._showCardsOn = function (elem, cards, onlyOne) {
+  this._removeCardsOn(elem);
+  if (cards.length === 0) {
+    return;
+  }
+  var cardElem = null;
+  if (onlyOne) {
+    cardElem = this._createCard(cards[0].value, cards[0].suit);
+    byQuery.appendTo(elem, cardElem);
+  } else {
+    var idx = cards.length - 1;
+
+    for (var i = idx; i >= 0; i--) {
+      cardElem = this._createCard(cards[i].value, cards[i].suit);
+      byQuery.appendTo(elem, cardElem);
+    }
   }
 };
 
-Layout.prototype._removeCardOn = function (elem) {
-  switch (elem) {
-  case TYPE.flipped:
-    byQuery.removeChildrenFrom(this.flippedCardElement);
-    break;
-  }
+Layout.prototype._removeCardsOn = function (elem) {
+  byQuery.removeChildrenFrom(elem);
 };
 
 Layout.prototype._createCard = function (value, suit) {
