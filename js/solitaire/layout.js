@@ -11,18 +11,18 @@ function Layout () {
 }
 
 Layout.prototype.showCardOnFlipped = function (value, suit) {
-  this._showCardOn('flipped', value, suit);
+  this._showCardOn(TYPE.flipped, value, suit);
 };
 
 Layout.prototype.removeCardOnFlipped = function () {
-  this._removeCardOn('flipped');
+  this._removeCardOn(TYPE.flipped);
 };
 
 Layout.prototype._showCardOn = function (elem, value, suit) {
   var cardElem = this._createCard(value, suit);
   switch (elem) {
-  case 'flipped':
-    this._removeCardOn('flipped');
+  case TYPE.flipped:
+    this._removeCardOn(TYPE.flipped);
     byQuery.appendTo(this.flippedCardElement, cardElem);
     break;
   }
@@ -30,7 +30,7 @@ Layout.prototype._showCardOn = function (elem, value, suit) {
 
 Layout.prototype._removeCardOn = function (elem) {
   switch (elem) {
-  case 'flipped':
+  case TYPE.flipped:
     byQuery.removeChildrenFrom(this.flippedCardElement);
     break;
   }

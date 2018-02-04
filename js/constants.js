@@ -59,3 +59,10 @@ var CARDS = [
   {suit: 'hearts', value: 'A'}
 
 ];
+
+var TYPE = {
+  flipped: 'flipped',
+  ace: 'ace',
+  stack: 'stack',
+  pile: 'pile'
+};

@@ -13,9 +13,9 @@ Data.prototype._init = function () {
 };
 
 Data.prototype.getNextCardFromStack = function (callback) {
-  var card = this._getNextCardFrom('stack');
+  var card = this._getNextCardFrom(TYPE.stack);
   if (card) {
-    this._pushCardTo('flipped', card);
+    this._pushCardTo(TYPE.flipped, card);
   }
   callback(card);
 };
@@ -28,14 +28,14 @@ Data.prototype.restartStackCards = function () {
 
 Data.prototype._getNextCardFrom = function (deck) {
   switch (deck) {
-  case 'stack':
+  case TYPE.stack:
     return this.stackCards.shift();
   }
 };
 
 Data.prototype._pushCardTo = function (deck, card) {
   switch (deck) {
-  case 'flipped':
+  case TYPE.flipped:
     this.flippedCards.push(card);
     break;
   }
