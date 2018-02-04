@@ -30,6 +30,14 @@ Layout.prototype.removeCardOnFlipped = function () {
   this._removeCardsOn(this.flippedCardElement);
 };
 
+Layout.prototype.selectCard = function (elemId) {
+  byQuery.changeBorderColor(elemId, 'pink');
+};
+
+Layout.prototype.unselectCard = function (elemId) {
+  byQuery.changeBorderColor(elemId, 'black');
+};
+
 Layout.prototype._getChildFrom = function (id) {
   return byQuery.getById(id);
 };

@@ -22,9 +22,9 @@ function Game (mainElement) {
   };
 
   self._handleCardClick = function (e) {
-    console.log(e.currentTarget.id);
     if (!self.previousCard) {
       self.previousCard = e.currentTarget.id;
+      self.layout.selectCard(self.previousCard);
     }
   };
 
@@ -38,19 +38,18 @@ Game.prototype.init = function () {
 };
 
 Game.prototype._computeMovementClick = function (clickId) {
-  if (this.previousMovement) {
-    this._computeMovement(this.previousMovement, clickId);
-    this.previousMovement = null;
-    this.previousCard = null;
+  var self = this;
+  if (self.previousMovement) {
+    self._computeMovement(self.previousMovement, clickId);
+    self._resetMovement();
   } else {
-    this.previousMovement = clickId;
+    self.previousMovement = clickId;
   }
 };
 
 Game.prototype._computeMovement = function (origin, destination) {
   var self = this;
-  console.log(origin, destination);
-  self.data.getCardsFrom(origin, this.previousCard, function (cards, remainderCards) {
+  self.data.getCardsFrom(origin, self.previousCard, function (cards, remainderCards) {
     if (cards.length > 0) {
       self.data.addCardsTo(destination, cards, function (addedCards) {
         self.layout.showCardsOn(origin, remainderCards);
@@ -58,15 +57,14 @@ Game.prototype._computeMovement = function (origin, destination) {
       });
     }
   });
-  console.log(self.data.flippedCards);
-  console.log(self.data.pileSpaceCards);
-  console.log(self.data.aceSpaceCards);
+  console.log(this.data.flippedCards);
+  console.log(this.data.pileSpaceCards);
+  console.log(this.data.aceSpaceCards);
 };
 
 Game.prototype._computeStackClick = function () {
   var self = this;
-  self.previousMovement = null;
-  self.previousCard = null;
+  self._resetMovement();
   self.data.getCardsFrom(TYPE.stack, '0', function (cards) {
     if (cards.length > 0) {
       self.layout.showCardsOn(TYPE.flipped, cards);
@@ -75,6 +73,12 @@ Game.prototype._computeStackClick = function () {
       self.layout.removeCardOnFlipped();
     }
   });
+};
+
+Game.prototype._resetMovement = function () {
+  this.layout.unselectCard(this.previousCard);
+  this.previousMovement = null;
+  this.previousCard = null;
 };
 
 Game.prototype.onGameOver = function (callback) {
