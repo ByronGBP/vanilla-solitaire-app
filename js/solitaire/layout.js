@@ -1,4 +1,4 @@
-function Layout (handleClick) {
+function Layout (handleFlippedClick, handleClick) {
   this.containerElement = null;
   this.template = null;
   this.aceSpaceElement = null;
@@ -8,6 +8,7 @@ function Layout (handleClick) {
   this.button = null;
 
   var self = this;
+  self._handleFlippedCardClick = handleFlippedClick;
   self._handleCardClick = handleClick;
 
   self._build();
@@ -15,7 +16,9 @@ function Layout (handleClick) {
 
 Layout.prototype.showCardsOn = function (destination, cards) {
   var childElement = null;
-  if (destination.includes(TYPE.flipped)) {
+  if (destination.includes(TYPE.stack)) {
+    this._showCardsOn(destination, this.stackCardElement, cards, true);
+  } else if (destination.includes(TYPE.flipped)) {
     this._showCardsOn(destination, this.flippedCardElement, cards, true);
   } else if (destination.includes(TYPE.ace)) {
     childElement = this._getChildFrom(destination);
@@ -51,30 +54,40 @@ Layout.prototype._showCardsOn = function (destination, elem, cards, onlyOne) {
   var id = null;
   if (onlyOne) {
     id = destination + '-card-' + 0;
-    cardElem = this._createCard(cards[0].value, cards[0].suit, id);
+    cardElem = this._createCard(cards[0], id);
     byQuery.appendTo(elem, cardElem);
   } else {
     var idx = cards.length - 1;
 
     for (var i = idx; i > -1; i--) {
       id = destination + '-card-' + i;
-      cardElem = this._createCard(cards[i].value, cards[i].suit, id);
+      cardElem = this._createCard(cards[i], id);
       byQuery.appendTo(elem, cardElem);
     }
   }
 };
 
 Layout.prototype._removeCardsOn = function (elem) {
+  byQuery.removeEventClickTo(elem, this._handleFlippedCardClick);
   byQuery.removeEventClickTo(elem, this._handleCardClick);
   byQuery.removeChildrenFrom(elem);
 };
 
-Layout.prototype._createCard = function (value, suit, id) {
+Layout.prototype._createCard = function (card, id) {
+  var flip = card.flip;
   var divCard = byQuery.generateDiv(id, 'card');
-  var suitElem = byQuery.generateText('h3', suit);
-  var valueElem = byQuery.generateText('h3', value);
-  byQuery.appendTo(divCard, [suitElem, valueElem]);
-  byQuery.addEventClickTo(divCard, this._handleCardClick);
+  if (flip) {
+    var suit = card.suit;
+    var value = card.value;
+    var suitElem = byQuery.generateText('h3', suit);
+    var valueElem = byQuery.generateText('h3', value);
+    byQuery.appendTo(divCard, [suitElem, valueElem]);
+    byQuery.addEventClickTo(divCard, this._handleFlippedCardClick);
+  } else {
+    var flipElem = byQuery.generateText('h3', 'FLIP');
+    byQuery.appendTo(divCard, flipElem);
+    byQuery.addEventClickTo(divCard, this._handleCardClick);
+  }
   return divCard;
 };
 

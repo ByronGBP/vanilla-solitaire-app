@@ -13,8 +13,8 @@ Data.prototype._init = function () {
   this._generatePileDeck();
 };
 
-Data.prototype.getPileCards = function (callback) {
-  callback(this.pileSpaceCards);
+Data.prototype.getInitialsCards = function (callback) {
+  callback(this.pileSpaceCards, this.stackCards);
 };
 
 Data.prototype.getCardsFrom = function (origin, idCard, callback) {
@@ -32,6 +32,7 @@ Data.prototype.getCardsFrom = function (origin, idCard, callback) {
   } else if (origin.includes(TYPE.stack)) {
     cards = this._getCardsFrom(this.stackCards, idx, origin);
     if (cards.length > 0) {
+      cards[0].flip = true;
       this._pushCardsTo(this.flippedCards, cards, TYPE.flipped);
     }
     callback(cards, this.stackCards[origin]);
@@ -49,9 +50,22 @@ Data.prototype.addCardsTo = function (destination, cards, callback) {
   }
 };
 
+Data.prototype.flipCard = function (idCard, callback) {
+  var infoCard = idCard.split('-card-');
+  var deck = infoCard[0];
+  var idx = Number(infoCard[1]);
+
+  if (idx === 0) {
+    this.pileSpaceCards[deck][idx].flip = true;
+  }
+  callback(this.pileSpaceCards[deck], deck);
+};
+
 Data.prototype.restartStackCards = function () {
   while (this.flippedCards[TYPE.flipped].length > 0) {
-    this.stackCards[TYPE.stack].push(this.flippedCards[TYPE.flipped].pop());
+    var card = this.flippedCards[TYPE.flipped].pop();
+    card.flip = false;
+    this.stackCards[TYPE.stack].push(card);
   }
 };
 
@@ -79,7 +93,7 @@ Data.prototype._generateStackDeck = function () {
   var length = CARDS.length;
   this._checkObject(this.stackCards, TYPE.stack);
   for (var i = 0; i < length; i++) {
-    var newCard = new Card(CARDS[i].value, CARDS[i].suit);
+    var newCard = new Card(CARDS[i].value, CARDS[i].suit, false);
     this.stackCards[TYPE.stack].push(newCard);
   }
 };
@@ -87,10 +101,14 @@ Data.prototype._generateStackDeck = function () {
 Data.prototype._generatePileDeck = function () {
   var i = 0;
   while (i < 7) {
+    var flipped = true;
     var key = TYPE.pile + i++;
     this._checkObject(this.pileSpaceCards, key);
     for (var j = 0; j < i; j++) {
-      this.pileSpaceCards[key].push(this.stackCards[TYPE.stack].pop());
+      var card = this.stackCards[TYPE.stack].pop();
+      card.flip = flipped;
+      this.pileSpaceCards[key].push(card);
+      flipped = false;
     }
   }
 };

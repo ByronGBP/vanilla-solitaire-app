@@ -6,6 +6,7 @@ function Game (mainElement) {
   this.gameOver = null;
   this.previousMovement = null;
   this.previousCard = null;
+  this.clickOnFlipped = null;
 
   var self = this;
   self._handleClickGameOver = function () {
@@ -13,6 +14,7 @@ function Game (mainElement) {
   };
 
   self._handleStackCardClick = function (e) {
+    console.log('stack');
     self._computeStackClick();
   };
 
@@ -21,10 +23,21 @@ function Game (mainElement) {
     self._computeMovementClick(clickId);
   };
 
-  self._handleCardClick = function (e) {
+  self._handleFlippedCardClick = function (e) {
+    console.log(e.currentTarget.id);
     if (!self.previousCard) {
       self.previousCard = e.currentTarget.id;
       self.layout.selectCard(self.previousCard);
+    }
+  };
+
+  self._handleCardClick = function (e) {
+    var origin = e.currentTarget.id;
+    if (origin.includes(TYPE.pile)) {
+      self.data.flipCard(origin, function (deck, name) {
+        self.layout.showCardsOn(name, deck);
+      });
+      self.clickOnFlipped = true;
     }
   };
 
@@ -34,7 +47,7 @@ function Game (mainElement) {
 Game.prototype.init = function () {
   this._setupGameLayout();
   this._setupGameData();
-  this._showPileCards();
+  this._showInitialsCards();
   this._setEventListeners();
 };
 
@@ -43,9 +56,12 @@ Game.prototype._computeMovementClick = function (clickId) {
   if (self.previousMovement) {
     self._computeMovement(self.previousMovement, clickId);
     self._resetMovement();
-  } else if (self._isValidClick(clickId)) {
+    console.log('movement2');
+  } else if (self._isValidClick(clickId) && !self.clickOnFlipped) {
     self.previousMovement = clickId;
+    console.log('movement1');
   }
+  self.clickOnFlipped = false;
 };
 
 Game.prototype._isValidClick = function (clickId) {
@@ -77,6 +93,8 @@ Game.prototype._computeStackClick = function () {
       self.data.restartStackCards();
       self.layout.removeCardOnFlipped();
     }
+    var stackCards = self.data.stackCards[TYPE.stack];
+    self.layout.showCardsOn(TYPE.stack, stackCards);
   });
 };
 
@@ -87,7 +105,7 @@ Game.prototype._resetMovement = function () {
 };
 
 Game.prototype._setupGameLayout = function () {
-  this.layout = new Layout(this._handleCardClick);
+  this.layout = new Layout(this._handleFlippedCardClick, this._handleCardClick);
   byQuery.appendTo(this.mainElement, this.layout.containerElement);
 };
 
@@ -95,12 +113,13 @@ Game.prototype._setupGameData = function () {
   this.data = new Data();
 };
 
-Game.prototype._showPileCards = function () {
+Game.prototype._showInitialsCards = function () {
   var self = this;
-  self.data.getPileCards(function (cards) {
-    for (var key in cards) {
-      self.layout.showCardsOn(key, cards[key]);
+  self.data.getInitialsCards(function (pileCards, stackCards) {
+    for (var key in pileCards) {
+      self.layout.showCardsOn(key, pileCards[key]);
     }
+    self.layout.showCardsOn(TYPE.stack, stackCards[TYPE.stack]);
   });
 };
 
