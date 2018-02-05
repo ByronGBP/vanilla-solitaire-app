@@ -56,7 +56,7 @@ Layout.prototype._showCardsOn = function (destination, elem, cards, onlyOne) {
   } else {
     var idx = cards.length - 1;
 
-    for (var i = idx; i >= 0; i--) {
+    for (var i = idx; i > -1; i--) {
       id = destination + '-card-' + i;
       cardElem = this._createCard(cards[i].value, cards[i].suit, id);
       byQuery.appendTo(elem, cardElem);

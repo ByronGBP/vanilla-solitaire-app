@@ -10,6 +10,11 @@ function Data () {
 Data.prototype._init = function () {
   this._generateStackDeck();
   this._shuffleCards();
+  this._generatePileDeck();
+};
+
+Data.prototype.getPileCards = function (callback) {
+  callback(this.pileSpaceCards);
 };
 
 Data.prototype.getCardsFrom = function (origin, idCard, callback) {
@@ -50,10 +55,6 @@ Data.prototype.restartStackCards = function () {
   }
 };
 
-Data.prototype._getIdxFromId = function (id) {
-  return Number(id.slice(-1));
-};
-
 Data.prototype._getCardsFrom = function (deck, idx, origin) {
   var cards = [];
   this._checkObject(deck, origin);
@@ -83,14 +84,19 @@ Data.prototype._generateStackDeck = function () {
   }
 };
 
-Data.prototype._checkObject = function (object, key) {
-  if (!object[key]) {
-    object[key] = [];
+Data.prototype._generatePileDeck = function () {
+  var i = 0;
+  while (i < 7) {
+    var key = TYPE.pile + i++;
+    this._checkObject(this.pileSpaceCards, key);
+    for (var j = 0; j < i; j++) {
+      this.pileSpaceCards[key].push(this.stackCards[TYPE.stack].pop());
+    }
   }
 };
 
 Data.prototype._shuffleCards = function () {
-  var lenght = this.stackCards.length;
+  var lenght = CARDS.length;
 
   for (var i = 0; i < lenght; i++) {
     var randomIndex = Math.floor(Math.random() * i);
@@ -98,4 +104,14 @@ Data.prototype._shuffleCards = function () {
     this.stackCards[TYPE.stack][i] = this.stackCards[TYPE.stack][randomIndex];
     this.stackCards[TYPE.stack][randomIndex] = temporaryValue;
   }
+};
+
+Data.prototype._checkObject = function (object, key) {
+  if (!object[key]) {
+    object[key] = [];
+  }
+};
+
+Data.prototype._getIdxFromId = function (id) {
+  return Number(id.slice(-1));
 };

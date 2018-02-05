@@ -34,6 +34,7 @@ function Game (mainElement) {
 Game.prototype.init = function () {
   this._setupGameLayout();
   this._setupGameData();
+  this._showPileCards();
   this._setEventListeners();
 };
 
@@ -85,10 +86,6 @@ Game.prototype._resetMovement = function () {
   this.previousCard = null;
 };
 
-Game.prototype.onGameOver = function (callback) {
-  this.gameOver = callback;
-};
-
 Game.prototype._setupGameLayout = function () {
   this.layout = new Layout(this._handleCardClick);
   byQuery.appendTo(this.mainElement, this.layout.containerElement);
@@ -96,6 +93,15 @@ Game.prototype._setupGameLayout = function () {
 
 Game.prototype._setupGameData = function () {
   this.data = new Data();
+};
+
+Game.prototype._showPileCards = function () {
+  var self = this;
+  self.data.getPileCards(function (cards) {
+    for (var key in cards) {
+      self.layout.showCardsOn(key, cards[key]);
+    }
+  });
 };
 
 Game.prototype._setEventListeners = function () {
@@ -112,6 +118,10 @@ Game.prototype._removeEventListeners = function () {
   byQuery.removeEventClickTo(this.layout.flippedCardElement, this._handleMovementClick);
   byQuery.removeEventClickTo(this.layout.aceSpaceElement.children, this._handleMovementClick);
   byQuery.removeEventClickTo(this.layout.pileSpaceElement.children, this._handleMovementClick);
+};
+
+Game.prototype.onGameOver = function (callback) {
+  this.gameOver = callback;
 };
 
 Game.prototype.destroy = function () {
