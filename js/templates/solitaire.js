@@ -11,9 +11,9 @@ function SolitaireTemplate (contianerElement) {
 }
 
 SolitaireTemplate.prototype._buildTemplate = function () {
+  this._buildButton();
   this._buildTopElement();
   this._buildBottomElement();
-  this._buildButton();
 };
 
 SolitaireTemplate.prototype._buildTopElement = function () {
