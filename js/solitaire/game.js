@@ -14,7 +14,6 @@ function Game (mainElement) {
   };
 
   self._handleStackCardClick = function (e) {
-    console.log('stack');
     self._computeStackClick();
   };
 
@@ -24,7 +23,6 @@ function Game (mainElement) {
   };
 
   self._handleFlippedCardClick = function (e) {
-    console.log(e.currentTarget.id);
     if (!self.previousCard) {
       self.previousCard = e.currentTarget.id;
       self.layout.selectCard(self.previousCard);
@@ -56,10 +54,8 @@ Game.prototype._computeMovementClick = function (clickId) {
   if (self.previousMovement) {
     self._computeMovement(self.previousMovement, clickId);
     self._resetMovement();
-    console.log('movement2');
   } else if (self._isValidClick(clickId) && !self.clickOnFlipped) {
     self.previousMovement = clickId;
-    console.log('movement1');
   }
   self.clickOnFlipped = false;
 };
@@ -70,6 +66,9 @@ Game.prototype._isValidClick = function (clickId) {
 
 Game.prototype._computeMovement = function (origin, destination) {
   var self = this;
+  if (!self._isValidMovement(origin, destination, self.previousCard)) {
+    return;
+  }
   self.data.getCardsFrom(origin, self.previousCard, function (cards, remainderCards) {
     if (cards.length > 0) {
       self.data.addCardsTo(destination, cards, function (addedCards) {
@@ -81,6 +80,33 @@ Game.prototype._computeMovement = function (origin, destination) {
   console.log(this.data.flippedCards);
   console.log(this.data.pileSpaceCards);
   console.log(this.data.aceSpaceCards);
+};
+
+Game.prototype._isValidMovement = function (origin, destination, cardId) {
+  console.log(cardId);
+  var cardGoing = this.data.getCardFrom(origin, cardId);
+  var cardReciving = this.data.getCardFrom(destination);
+
+  var toPile = destination.includes(TYPE.pile);
+  if (toPile && this._isCorrectPositionPile(cardGoing, cardReciving)) {
+    return true;
+  }
+  var toAce = destination.includes(TYPE.ace);
+  if (toAce && this._isCorrectPositionAce(cardGoing, cardReciving)) {
+    return true;
+  }
+  return false;
+};
+
+Game.prototype._isCorrectPositionPile = function (cardOne, cardTwo) {
+  return !cardTwo || (cardOne.color !== cardTwo.color && (cardTwo.point - cardOne.point) === 1);
+};
+
+Game.prototype._isCorrectPositionAce = function (cardOne, cardTwo) {
+  if (!cardTwo) {
+    return cardOne.point === 1;
+  }
+  return cardOne.suit === cardTwo.suit && (cardOne.point - cardTwo.point) === 1;
 };
 
 Game.prototype._computeStackClick = function () {

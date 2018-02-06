@@ -11,10 +11,27 @@ Data.prototype._init = function () {
   this._generateStackDeck();
   this._shuffleCards();
   this._generatePileDeck();
+  this._generateAceDeck();
 };
 
 Data.prototype.getInitialsCards = function (callback) {
   callback(this.pileSpaceCards, this.stackCards);
+};
+
+Data.prototype.getCardFrom = function (origin, idCard) {
+  var idx = 0;
+  if (idCard) {
+    var infoCard = this._getInfoCardFromId(idCard);
+    idx = infoCard.idx;
+  }
+
+  if (origin.includes(TYPE.ace)) {
+    return this.aceSpaceCards[origin][idx];
+  } else if (origin.includes(TYPE.pile)) {
+    return this.pileSpaceCards[origin][idx];
+  } else if (origin.includes(TYPE.flipped)) {
+    return this.flippedCards[origin][idx];
+  }
 };
 
 Data.prototype.getCardsFrom = function (origin, idCard, callback) {
@@ -51,9 +68,9 @@ Data.prototype.addCardsTo = function (destination, cards, callback) {
 };
 
 Data.prototype.flipCard = function (idCard, callback) {
-  var infoCard = idCard.split('-card-');
-  var deck = infoCard[0];
-  var idx = Number(infoCard[1]);
+  var infoCard = this._getInfoCardFromId(idCard);
+  var deck = infoCard.deck;
+  var idx = infoCard.idx;
 
   if (idx === 0) {
     this.pileSpaceCards[deck][idx].flip = true;
@@ -93,7 +110,7 @@ Data.prototype._generateStackDeck = function () {
   var length = CARDS.length;
   this._checkObject(this.stackCards, TYPE.stack);
   for (var i = 0; i < length; i++) {
-    var newCard = new Card(CARDS[i].value, CARDS[i].suit, false);
+    var newCard = new Card(CARDS[i].value, CARDS[i].suit, CARDS[i].color, CARDS[i].point, false);
     this.stackCards[TYPE.stack].push(newCard);
   }
 };
@@ -110,6 +127,13 @@ Data.prototype._generatePileDeck = function () {
       this.pileSpaceCards[key].push(card);
       flipped = false;
     }
+  }
+};
+
+Data.prototype._generateAceDeck = function () {
+  for (var i = 0; i < 4; i++) {
+    var key = TYPE.ace + i;
+    this._checkObject(this.aceSpaceCards, key);
   }
 };
 
@@ -132,4 +156,13 @@ Data.prototype._checkObject = function (object, key) {
 
 Data.prototype._getIdxFromId = function (id) {
   return Number(id.slice(-1));
+};
+
+Data.prototype._getInfoCardFromId = function (cardId) {
+  var infoCard = cardId.split('-card-');
+  var infoCardObj = {
+    deck: infoCard[0],
+    idx: Number(infoCard[1])
+  };
+  return infoCardObj;
 };
