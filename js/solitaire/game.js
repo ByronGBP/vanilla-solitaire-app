@@ -3,6 +3,8 @@ function Game (mainElement) {
 
   this.layout = null;
   this.data = null;
+  this.movements = null;
+  this.points = null;
   this.gameOver = null;
   this.previousMovement = null;
   this.previousCard = null;
@@ -66,36 +68,46 @@ Game.prototype._isValidClick = function (clickId) {
 
 Game.prototype._computeMovement = function (origin, destination) {
   var self = this;
-  if (!self._isValidMovement(origin, destination, self.previousCard)) {
-    return;
-  }
-  self.data.getCardsFrom(origin, self.previousCard, function (cards, remainderCards) {
-    if (cards.length > 0) {
-      self.data.addCardsTo(destination, cards, function (addedCards) {
-        self.layout.showCardsOn(origin, remainderCards);
-        self.layout.showCardsOn(destination, addedCards);
-      });
+  self._checkValidMovement(origin, destination, self.previousCard, function (valid, points) {
+    if (!valid) {
+      return;
     }
+    self.data.getCardsFrom(origin, self.previousCard, function (cards, remainderCards) {
+      if (cards.length > 0) {
+        self.data.addCardsTo(destination, cards, function (addedCards) {
+          self.layout.showCardsOn(origin, remainderCards);
+          self.layout.showCardsOn(destination, addedCards);
+        });
+      }
+    });
+    self.points += points;
   });
-  console.log(this.data.flippedCards);
-  console.log(this.data.pileSpaceCards);
-  console.log(this.data.aceSpaceCards);
+  self._updateStateGame();
 };
 
-Game.prototype._isValidMovement = function (origin, destination, cardId) {
-  console.log(cardId);
+Game.prototype._updateStateGame = function () {
+  this.movements += 1;
+  if (this.data.isAceCompleted()) {
+    this.gameOver();
+  }
+  console.log(this.movements, this.points);
+};
+
+Game.prototype._checkValidMovement = function (origin, destination, cardId, callback) {
+  var valid = false;
+  var points = 0;
   var cardGoing = this.data.getCardFrom(origin, cardId);
   var cardReciving = this.data.getCardFrom(destination);
 
   var toPile = destination.includes(TYPE.pile);
-  if (toPile && this._isCorrectPositionPile(cardGoing, cardReciving)) {
-    return true;
-  }
   var toAce = destination.includes(TYPE.ace);
-  if (toAce && this._isCorrectPositionAce(cardGoing, cardReciving)) {
-    return true;
+  if (toPile && this._isCorrectPositionPile(cardGoing, cardReciving)) {
+    valid = true;
+  } else if (toAce && this._isCorrectPositionAce(cardGoing, cardReciving)) {
+    valid = true;
+    points = cardGoing.point;
   }
-  return false;
+  callback(valid, points);
 };
 
 Game.prototype._isCorrectPositionPile = function (cardOne, cardTwo) {

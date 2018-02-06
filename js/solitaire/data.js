@@ -67,6 +67,15 @@ Data.prototype.addCardsTo = function (destination, cards, callback) {
   }
 };
 
+Data.prototype.isAceCompleted = function () {
+  for (var key in this.aceSpaceCards) {
+    if (this.aceSpaceCards[key].length !== 13) {
+      return false;
+    }
+  }
+  return true;
+};
+
 Data.prototype.flipCard = function (idCard, callback) {
   var infoCard = this._getInfoCardFromId(idCard);
   var deck = infoCard.deck;
