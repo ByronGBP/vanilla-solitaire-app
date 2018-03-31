@@ -17,7 +17,7 @@ SolitaireTemplate.prototype._buildTemplate = function () {
 };
 
 SolitaireTemplate.prototype._buildTopElement = function () {
-  this.topElement = bQuery.generateDiv('top-element');
+  this.topElement = bQuery.generateDiv('top-element', 'flex');
   var leftElement = this._buildTopLeftElement();
   var rightElement = this._buildTopRighttElement();
   bQuery.appendTo(this.topElement, [leftElement, rightElement]);
@@ -26,7 +26,7 @@ SolitaireTemplate.prototype._buildTopElement = function () {
 
 SolitaireTemplate.prototype._buildBottomElement = function () {
   this.bottomElement = bQuery.generateDiv('bottom-element');
-  var pileContainer = bQuery.generateDiv('bottom-center-element');
+  var pileContainer = bQuery.generateDiv('bottom-center-element', 'flex');
   var arrayDivs = this._generateDivs(this.NUMBER_PILE, TYPE.pile, TYPE.card);
   bQuery.appendTo(pileContainer, arrayDivs);
   bQuery.appendTo(this.bottomElement, pileContainer);
@@ -39,7 +39,7 @@ SolitaireTemplate.prototype._buildButton = function () {
 };
 
 SolitaireTemplate.prototype._buildTopLeftElement = function () {
-  var leftElement = bQuery.generateDiv('top-left-element');
+  var leftElement = bQuery.generateDiv('top-left-element', 'flex');
   var stackElement = bQuery.generateDiv(TYPE.stack, TYPE.card);
   var flippedElement = bQuery.generateDiv(TYPE.flipped, TYPE.card);
   bQuery.appendTo(leftElement, [stackElement, flippedElement]);
@@ -48,7 +48,7 @@ SolitaireTemplate.prototype._buildTopLeftElement = function () {
 };
 
 SolitaireTemplate.prototype._buildTopRighttElement = function () {
-  var rightElement = bQuery.generateDiv('top-right-element');
+  var rightElement = bQuery.generateDiv('top-right-element', 'flex');
   var arrayDivs = this._generateDivs(this.NUMBER_ACE, TYPE.ace, TYPE.card);
   bQuery.appendTo(rightElement, arrayDivs);
 

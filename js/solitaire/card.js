@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 function Card (value, suit, color, point, flip) {
   this.value = value;
   this.suit = suit;

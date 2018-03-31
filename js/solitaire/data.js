@@ -3,7 +3,6 @@ function Data () {
   this.flippedCards = {};
   this.aceSpaceCards = {};
   this.pileSpaceCards = {};
-
   this._init();
 }
 

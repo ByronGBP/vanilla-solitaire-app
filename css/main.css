@@ -2,44 +2,106 @@
 
 html {
   box-sizing: border-box;
+  height: 100%;
 }
 *, *:before, *:after {
   box-sizing: inherit;
-}
-
-/* ---- TYPOGRAPHY ---- */
-
-/* ---- LAYOUT ---- */
-* {
-    border: 1px solid black;
-}
-/* -- splash -- */
-
-/* -- game -- */
-
-.card,
-.stack {
-  width: 10vw;
-  height: 25vh;
-  margin: 10px;
-  text-align: center;
-}
-
-#top-element, #bottom-center-element, #top-right-element, #top-left-element {
-  display: flex;
-}
-
-#top-element, #bottom-center-element {
-  justify-content: space-between;
-  padding: 10px;
-}
-
-#top-left-element [id*="cards"] .card, [id*="space"] .card {
   margin: 0px;
 }
 
-[id*="pile-space"] .flipped {
+body {
+  background: radial-gradient(ellipse at center, rgba(240,217,163,1) 0%, rgba(250,208,110,1) 27%, rgba(230,166,16,1) 57%, rgba(125,86,1,1) 100%);
+}
+/* ---- TYPOGRAPHY ---- */
 
+.georgia-font {
+  text-align: center;
+  font: 6.5vw/calc(9.5vw * 1.5) 'Raleway', sans-serif;;
 }
 
-/* -- gameover -- */
+/* ---- LAYOUT ---- */
+* {
+  /* border: 1px solid black; */
+}
+
+.flex {
+  display: flex;
+}
+
+/* -- CARD -- */
+.card {
+  position: relative;
+  border-radius: 10px;
+  width: 9.5vw;
+  height: calc(9.5vw * 1.5);
+  margin: 5px;
+  box-shadow: 3px 3px 7px rgba(0,0,0,0.3);
+  background: radial-gradient(ellipse at center, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 10%, rgba(250,245,222,1) 50%, rgba(247,238,201,1) 76%, rgba(250,208,110,1) 100%);
+}
+
+.black, .red, .flipped{
+  display: flex;
+  margin: 0px;
+  justify-content: center;
+}
+
+.card h3 {
+  position: absolute;
+}
+
+.black:before,
+.red:before {
+  position: absolute;
+  line-height: normal;
+  font-size: 2.5vw;
+  content: attr(number);
+  left: 5%;
+  top: 5%;
+} 
+
+.red {
+  position: relative;
+  color: #fad06e;
+}
+
+.shadow-suit-red{
+  color: #fad06e4f;
+  font-size: 8.5vw;
+}
+ 
+.black {
+  position: relative;
+  color: #6d5110;
+}
+
+.shadow-suit-black{
+  color: #6d51104f;
+  font-size: 8.5vw;
+}
+
+/* -- TOP ELEMENT -- */
+
+#top-element {
+  justify-content: space-between;
+  padding: 1.5%;
+}
+
+/* -- BOTTOM ELEMENT -- */
+
+#bottom-center-element {
+  justify-content: space-around;
+}
+
+#bottom-center-element .card .card{ 
+  margin-bottom: calc(9.5vw * 1.5 * 0.80 * -1);
+  transition: margin-bottom 0.2s ease-out;
+}
+
+#bottom-center-element .red:hover, 
+#bottom-center-element .black:hover {
+  margin-bottom: calc(9.5vw * 1.5 * 0.6 * -1);
+}
+
+#game-element {
+  width: 100%;
+}

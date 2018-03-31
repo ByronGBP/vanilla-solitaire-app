@@ -75,18 +75,19 @@ Layout.prototype._removeCardsOn = function (elem) {
 
 Layout.prototype._createCard = function (card, id) {
   var flip = card.flip;
-  var divCard = bQuery.generateDiv(id, 'card');
+  var divCard = null;
   if (flip) {
+    divCard = bQuery.generateDiv(id, ['card', card.color, 'georgia-font']);
     var suit = card.suit;
     var value = card.value;
+    var color = card.color;
+    var suitShadowElem = bQuery.generateText('h3', suit, TYPE.shadowSuit + color);
     var suitElem = bQuery.generateText('h3', suit);
-    var valueElem = bQuery.generateText('h3', value);
-    bQuery.appendTo(divCard, [suitElem, valueElem]);
+    bQuery._setAttribute(divCard, 'number', value);
+    bQuery.appendTo(divCard, [suitShadowElem, suitElem]);
     bQuery.addEventClickTo(divCard, this._handleFlippedCardClick);
   } else {
-    var flipElem = bQuery.generateText('h3', 'FLIP');
-    bQuery._addClassTo(divCard, 'flipped');
-    bQuery.appendTo(divCard, flipElem);
+    divCard = bQuery.generateDiv(id, ['card', 'flipped', 'georgia-font']);
     bQuery.addEventClickTo(divCard, this._handleCardClick);
   }
   return divCard;

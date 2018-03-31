@@ -1,16 +1,16 @@
 function Game (mainElement) {
-  this.mainElement = mainElement;
-
-  this.layout = null;
-  this.data = null;
-  this.movements = null;
-  this.points = null;
-  this.gameOver = null;
-  this.previousMovement = null;
-  this.previousCard = null;
-  this.clickOnFlipped = null;
-
   var self = this;
+  self.mainElement = mainElement;
+
+  self.layout = null;
+  self.data = null;
+  self.movements = null;
+  self.points = null;
+  self.gameOver = null;
+  self.previousMovement = null;
+  self.previousCard = null;
+  self.clickOnFlipped = null;
+
   self._handleClickGameOver = function () {
     self.gameOver();
   };
