@@ -10,7 +10,7 @@ html {
 }
 
 body {
-  background: radial-gradient(ellipse at center, rgba(240,217,163,1) 0%, rgba(250,208,110,1) 27%, rgba(230,166,16,1) 57%, rgba(125,86,1,1) 100%);
+  background: radial-gradient(ellipse at center, rgba(240,217,163,1) 0%, rgba(250,208,110,1) 27%, rgba(230,166,16,1) 57%, rgba(250,208,110,1) 100%);
 }
 /* ---- TYPOGRAPHY ---- */
 
@@ -29,6 +29,7 @@ body {
 }
 
 /* -- CARD -- */
+
 .card {
   position: relative;
   border-radius: 10px;
@@ -37,6 +38,11 @@ body {
   margin: 5px;
   box-shadow: 3px 3px 7px rgba(0,0,0,0.3);
   background: radial-gradient(ellipse at center, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 10%, rgba(250,245,222,1) 50%, rgba(247,238,201,1) 76%, rgba(250,208,110,1) 100%);
+
+}
+
+.card.clicked {
+  box-shadow: 3px 3px 7px rgba(0,0,0,1);
 }
 
 .black, .red, .flipped{
@@ -94,12 +100,13 @@ body {
 
 #bottom-center-element .card .card{ 
   margin-bottom: calc(9.5vw * 1.5 * 0.80 * -1);
-  transition: margin-bottom 0.2s ease-out;
+  transition: margin-bottom 0.2s ease-out, box-shadow 0.2s ease-out;;
 }
 
 #bottom-center-element .red:hover, 
 #bottom-center-element .black:hover {
   margin-bottom: calc(9.5vw * 1.5 * 0.6 * -1);
+  box-shadow: 3px 3px 7px rgba(0,0,0,1);
 }
 
 #game-element {

@@ -66,10 +66,10 @@ bQuery.prototype.getById = function (id) {
   return document.getElementById(id);
 };
 
-bQuery.prototype.changeBorderColor = function (elemId, color) {
+bQuery.prototype.toggleClass = function (elemId, className) {
   var element = this.getById(elemId);
   if (element) {
-    element.style.borderColor = color;
+    element.classList.toggle(className);
   }
 };
 
