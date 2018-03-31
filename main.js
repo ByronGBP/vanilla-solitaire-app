@@ -35,7 +35,7 @@ Environment.prototype.buildSplash = function () {
 
   this._setupSplashElement();
   this._setupSplashButtonElement();
-  byQuery.appendTo(this.mainElement, this.splashElement);
+  bQuery.appendTo(this.mainElement, this.splashElement);
 };
 
 Environment.prototype.destroySplash = function () {
@@ -67,7 +67,7 @@ Environment.prototype.buildGameOver = function () {
   this._stage = 'gameover';
   this._setupGameOverElement();
   this._setupGameOverButtonElement();
-  byQuery.appendTo(this.mainElement, this.gameOverElement);
+  bQuery.appendTo(this.mainElement, this.gameOverElement);
 };
 
 Environment.prototype.destroyGameOver = function () {
@@ -86,27 +86,27 @@ Environment.prototype._saveLastStage = function () {
 };
 
 Environment.prototype._setupMainElement = function () {
-  this.mainElement = byQuery.getById('main-element');
+  this.mainElement = bQuery.getById('main-element');
 };
 
 Environment.prototype._setupSplashElement = function () {
-  this.splashElement = byQuery.generateDiv('splash-element');
+  this.splashElement = bQuery.generateDiv('splash-element');
 };
 
 Environment.prototype._setupSplashButtonElement = function () {
-  this.splashButtonElement = byQuery.generateButton('Go Game');
-  byQuery.addEventClickTo(this.splashButtonElement, this.handleClickSplash);
-  byQuery.appendTo(this.splashElement, this.splashButtonElement);
+  this.splashButtonElement = bQuery.generateButton('Go Game');
+  bQuery.addEventClickTo(this.splashButtonElement, this.handleClickSplash);
+  bQuery.appendTo(this.splashElement, this.splashButtonElement);
 };
 
 Environment.prototype._setupGameOverButtonElement = function () {
-  this.gameOverButtonElement = byQuery.generateButton('Restart');
-  byQuery.addEventClickTo(this.gameOverButtonElement, this.handleClickGameOver);
-  byQuery.appendTo(this.gameOverElement, this.gameOverButtonElement);
+  this.gameOverButtonElement = bQuery.generateButton('Restart');
+  bQuery.addEventClickTo(this.gameOverButtonElement, this.handleClickGameOver);
+  bQuery.appendTo(this.gameOverElement, this.gameOverButtonElement);
 };
 
 Environment.prototype._setupGameOverElement = function () {
-  this.gameOverElement = byQuery.generateDiv('gameover-element');
+  this.gameOverElement = bQuery.generateDiv('gameover-element');
 };
 
 window.addEventListener('DOMContentLoaded', function () {

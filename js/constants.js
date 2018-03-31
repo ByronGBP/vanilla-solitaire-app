@@ -1,5 +1,6 @@
+/* eslint-disable */
 
-var byQuery = new byQuery();
+var bQuery = new bQuery();
 
 var CARDS = [
   { suit: 'spades', value: 'A', color: 'black', point: 1 },

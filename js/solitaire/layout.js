@@ -34,15 +34,15 @@ Layout.prototype.removeCardOnFlipped = function () {
 };
 
 Layout.prototype.selectCard = function (elemId) {
-  byQuery.changeBorderColor(elemId, 'pink');
+  bQuery.changeBorderColor(elemId, 'pink');
 };
 
 Layout.prototype.unselectCard = function (elemId) {
-  byQuery.changeBorderColor(elemId, 'black');
+  bQuery.changeBorderColor(elemId, 'black');
 };
 
 Layout.prototype._getChildFrom = function (id) {
-  return byQuery.getById(id);
+  return bQuery.getById(id);
 };
 
 Layout.prototype._showCardsOn = function (destination, elem, cards, onlyOne) {
@@ -55,53 +55,54 @@ Layout.prototype._showCardsOn = function (destination, elem, cards, onlyOne) {
   if (onlyOne) {
     id = destination + '-card-' + 0;
     cardElem = this._createCard(cards[0], id);
-    byQuery.appendTo(elem, cardElem);
+    bQuery.appendTo(elem, cardElem);
   } else {
     var idx = cards.length - 1;
 
     for (var i = idx; i > -1; i--) {
       id = destination + '-card-' + i;
       cardElem = this._createCard(cards[i], id);
-      byQuery.appendTo(elem, cardElem);
+      bQuery.appendTo(elem, cardElem);
     }
   }
 };
 
 Layout.prototype._removeCardsOn = function (elem) {
-  byQuery.removeEventClickTo(elem, this._handleFlippedCardClick);
-  byQuery.removeEventClickTo(elem, this._handleCardClick);
-  byQuery.removeChildrenFrom(elem);
+  bQuery.removeEventClickTo(elem, this._handleFlippedCardClick);
+  bQuery.removeEventClickTo(elem, this._handleCardClick);
+  bQuery.removeChildrenFrom(elem);
 };
 
 Layout.prototype._createCard = function (card, id) {
   var flip = card.flip;
-  var divCard = byQuery.generateDiv(id, 'card');
+  var divCard = bQuery.generateDiv(id, 'card');
   if (flip) {
     var suit = card.suit;
     var value = card.value;
-    var suitElem = byQuery.generateText('h3', suit);
-    var valueElem = byQuery.generateText('h3', value);
-    byQuery.appendTo(divCard, [suitElem, valueElem]);
-    byQuery.addEventClickTo(divCard, this._handleFlippedCardClick);
+    var suitElem = bQuery.generateText('h3', suit);
+    var valueElem = bQuery.generateText('h3', value);
+    bQuery.appendTo(divCard, [suitElem, valueElem]);
+    bQuery.addEventClickTo(divCard, this._handleFlippedCardClick);
   } else {
-    var flipElem = byQuery.generateText('h3', 'FLIP');
-    byQuery.appendTo(divCard, flipElem);
-    byQuery.addEventClickTo(divCard, this._handleCardClick);
+    var flipElem = bQuery.generateText('h3', 'FLIP');
+    bQuery._addClassTo(divCard, 'flipped');
+    bQuery.appendTo(divCard, flipElem);
+    bQuery.addEventClickTo(divCard, this._handleCardClick);
   }
   return divCard;
 };
 
 Layout.prototype._build = function () {
-  this.containerElement = byQuery.generateDiv('game-element');
+  this.containerElement = bQuery.generateDiv('game-element');
   this.template = new SolitaireTemplate(this.containerElement);
   this._declareElements();
 };
 
 Layout.prototype._declareElements = function () {
-  var leftContainer = byQuery.getChildrenFrom(this.template.topElement, 0);
-  this.stackCardElement = byQuery.getChildrenFrom(leftContainer, 0);
-  this.flippedCardElement = byQuery.getChildrenFrom(leftContainer, 1);
-  this.aceSpaceElement = byQuery.getChildrenFrom(this.template.topElement, 1);
-  this.pileSpaceElement = byQuery.getChildrenFrom(this.template.bottomElement, 0);
+  var leftContainer = bQuery.getChildrenFrom(this.template.topElement, 0);
+  this.stackCardElement = bQuery.getChildrenFrom(leftContainer, 0);
+  this.flippedCardElement = bQuery.getChildrenFrom(leftContainer, 1);
+  this.aceSpaceElement = bQuery.getChildrenFrom(this.template.topElement, 1);
+  this.pileSpaceElement = bQuery.getChildrenFrom(this.template.bottomElement, 0);
   this.button = this.template.button;
 };

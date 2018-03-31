@@ -17,52 +17,52 @@ SolitaireTemplate.prototype._buildTemplate = function () {
 };
 
 SolitaireTemplate.prototype._buildTopElement = function () {
-  this.topElement = byQuery.generateDiv('top-element');
+  this.topElement = bQuery.generateDiv('top-element');
   var leftElement = this._buildTopLeftElement();
   var rightElement = this._buildTopRighttElement();
-  byQuery.appendTo(this.topElement, [leftElement, rightElement]);
+  bQuery.appendTo(this.topElement, [leftElement, rightElement]);
   this._addChildToContainer(this.topElement);
 };
 
 SolitaireTemplate.prototype._buildBottomElement = function () {
-  this.bottomElement = byQuery.generateDiv('bottom-element');
-  var pileContainer = byQuery.generateDiv('bottom-center-element');
+  this.bottomElement = bQuery.generateDiv('bottom-element');
+  var pileContainer = bQuery.generateDiv('bottom-center-element');
   var arrayDivs = this._generateDivs(this.NUMBER_PILE, TYPE.pile, TYPE.card);
-  byQuery.appendTo(pileContainer, arrayDivs);
-  byQuery.appendTo(this.bottomElement, pileContainer);
+  bQuery.appendTo(pileContainer, arrayDivs);
+  bQuery.appendTo(this.bottomElement, pileContainer);
   this._addChildToContainer(this.bottomElement);
 };
 
 SolitaireTemplate.prototype._buildButton = function () {
-  this.button = byQuery.generateButton('game-over', 'Game Over');
+  this.button = bQuery.generateButton('game-over', 'Game Over');
   this._addChildToContainer(this.button);
 };
 
 SolitaireTemplate.prototype._buildTopLeftElement = function () {
-  var leftElement = byQuery.generateDiv('top-left-element');
-  var stackElement = byQuery.generateDiv(TYPE.stack, TYPE.card);
-  var flippedElement = byQuery.generateDiv(TYPE.flipped, TYPE.card);
-  byQuery.appendTo(leftElement, [stackElement, flippedElement]);
+  var leftElement = bQuery.generateDiv('top-left-element');
+  var stackElement = bQuery.generateDiv(TYPE.stack, TYPE.card);
+  var flippedElement = bQuery.generateDiv(TYPE.flipped, TYPE.card);
+  bQuery.appendTo(leftElement, [stackElement, flippedElement]);
 
   return leftElement;
 };
 
 SolitaireTemplate.prototype._buildTopRighttElement = function () {
-  var rightElement = byQuery.generateDiv('top-right-element');
+  var rightElement = bQuery.generateDiv('top-right-element');
   var arrayDivs = this._generateDivs(this.NUMBER_ACE, TYPE.ace, TYPE.card);
-  byQuery.appendTo(rightElement, arrayDivs);
+  bQuery.appendTo(rightElement, arrayDivs);
 
   return rightElement;
 };
 
 SolitaireTemplate.prototype._addChildToContainer = function (elem) {
-  byQuery.appendTo(this.contianerElement, elem);
+  bQuery.appendTo(this.contianerElement, elem);
 };
 
 SolitaireTemplate.prototype._generateDivs = function (numberDivs, baseId, className) {
   var arrayDivs = [];
   for (var i = 0; i < numberDivs; i++) {
-    var newDiv = byQuery.generateDiv(baseId + i, className);
+    var newDiv = bQuery.generateDiv(baseId + i, className);
     arrayDivs.push(newDiv);
   }
 

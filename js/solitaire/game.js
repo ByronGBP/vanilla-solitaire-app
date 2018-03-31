@@ -63,7 +63,7 @@ Game.prototype._computeMovementClick = function (clickId) {
 };
 
 Game.prototype._isValidClick = function (clickId) {
-  return byQuery.getById(clickId).children.length > 0;
+  return bQuery.getById(clickId).children.length > 0;
 };
 
 Game.prototype._computeMovement = function (origin, destination) {
@@ -90,7 +90,6 @@ Game.prototype._updateStateGame = function () {
   if (this.data.isAceCompleted()) {
     this.gameOver();
   }
-  console.log(this.movements, this.points);
 };
 
 Game.prototype._checkValidMovement = function (origin, destination, cardId, callback) {
@@ -144,7 +143,7 @@ Game.prototype._resetMovement = function () {
 
 Game.prototype._setupGameLayout = function () {
   this.layout = new Layout(this._handleFlippedCardClick, this._handleCardClick);
-  byQuery.appendTo(this.mainElement, this.layout.containerElement);
+  bQuery.appendTo(this.mainElement, this.layout.containerElement);
 };
 
 Game.prototype._setupGameData = function () {
@@ -162,19 +161,19 @@ Game.prototype._showInitialsCards = function () {
 };
 
 Game.prototype._setEventListeners = function () {
-  byQuery.addEventClickTo(this.layout.button, this._handleClickGameOver);
-  byQuery.addEventClickTo(this.layout.stackCardElement, this._handleStackCardClick);
-  byQuery.addEventClickTo(this.layout.flippedCardElement, this._handleMovementClick);
-  byQuery.addEventClickTo(this.layout.aceSpaceElement.children, this._handleMovementClick);
-  byQuery.addEventClickTo(this.layout.pileSpaceElement.children, this._handleMovementClick);
+  bQuery.addEventClickTo(this.layout.button, this._handleClickGameOver);
+  bQuery.addEventClickTo(this.layout.stackCardElement, this._handleStackCardClick);
+  bQuery.addEventClickTo(this.layout.flippedCardElement, this._handleMovementClick);
+  bQuery.addEventClickTo(this.layout.aceSpaceElement.children, this._handleMovementClick);
+  bQuery.addEventClickTo(this.layout.pileSpaceElement.children, this._handleMovementClick);
 };
 
 Game.prototype._removeEventListeners = function () {
-  byQuery.removeEventClickTo(this.layout.button, this._handleClickGameOver);
-  byQuery.removeEventClickTo(this.layout.stackCardElement, this._handleMovementClick);
-  byQuery.removeEventClickTo(this.layout.flippedCardElement, this._handleMovementClick);
-  byQuery.removeEventClickTo(this.layout.aceSpaceElement.children, this._handleMovementClick);
-  byQuery.removeEventClickTo(this.layout.pileSpaceElement.children, this._handleMovementClick);
+  bQuery.removeEventClickTo(this.layout.button, this._handleClickGameOver);
+  bQuery.removeEventClickTo(this.layout.stackCardElement, this._handleMovementClick);
+  bQuery.removeEventClickTo(this.layout.flippedCardElement, this._handleMovementClick);
+  bQuery.removeEventClickTo(this.layout.aceSpaceElement.children, this._handleMovementClick);
+  bQuery.removeEventClickTo(this.layout.pileSpaceElement.children, this._handleMovementClick);
 };
 
 Game.prototype.onGameOver = function (callback) {
@@ -183,5 +182,5 @@ Game.prototype.onGameOver = function (callback) {
 
 Game.prototype.destroy = function () {
   this._removeEventListeners();
-  byQuery.remove(this.layout.containerElement);
+  bQuery.remove(this.layout.containerElement);
 };

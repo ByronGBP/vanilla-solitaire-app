@@ -17,7 +17,8 @@ html {
 
 /* -- game -- */
 
-.card {
+.card,
+.stack {
   width: 10vw;
   height: 25vh;
   margin: 10px;
@@ -35,6 +36,10 @@ html {
 
 #top-left-element [id*="cards"] .card, [id*="space"] .card {
   margin: 0px;
+}
+
+[id*="pile-space"] .flipped {
+
 }
 
 /* -- gameover -- */
