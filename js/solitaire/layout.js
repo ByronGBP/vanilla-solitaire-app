@@ -34,11 +34,11 @@ Layout.prototype.removeCardOnFlipped = function () {
 };
 
 Layout.prototype.selectCard = function (elemId) {
-  bQuery.toggleClass(elemId, 'clicked');
+  bQuery.addClass(elemId, 'clicked');
 };
 
 Layout.prototype.unselectCard = function (elemId) {
-  bQuery.toggleClass(elemId, 'clicked');
+  bQuery.removeClass(elemId, 'clicked');
 };
 
 Layout.prototype._getChildFrom = function (id) {

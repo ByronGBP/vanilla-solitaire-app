@@ -66,10 +66,17 @@ bQuery.prototype.getById = function (id) {
   return document.getElementById(id);
 };
 
-bQuery.prototype.toggleClass = function (elemId, className) {
+bQuery.prototype.removeClass = function (elemId, className) {
   var element = this.getById(elemId);
   if (element) {
-    element.classList.toggle(className);
+    element.classList.remove(className);
+  }
+};
+
+bQuery.prototype.addClass = function (elemId, className) {
+  var element = this.getById(elemId);
+  if (element) {
+    element.classList.add(className);
   }
 };
 

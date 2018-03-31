@@ -110,7 +110,7 @@ Game.prototype._checkValidMovement = function (origin, destination, cardId, call
 };
 
 Game.prototype._isCorrectPositionPile = function (cardOne, cardTwo) {
-  return !cardTwo || (cardOne.color !== cardTwo.color && (cardTwo.point - cardOne.point) === 1);
+  return (!cardTwo && cardOne.point === 13) || (cardTwo && cardOne.color !== cardTwo.color && (cardTwo.point - cardOne.point) === 1);
 };
 
 Game.prototype._isCorrectPositionAce = function (cardOne, cardTwo) {
