@@ -111,5 +111,5 @@ Environment.prototype._setupGameOverElement = function () {
 
 window.addEventListener('DOMContentLoaded', function () {
   var environment = new Environment();
-  environment.buildGame();
+  environment.buildSplash();
 });

@@ -95,7 +95,7 @@ Layout.prototype._createCard = function (card, id) {
 
 Layout.prototype._build = function () {
   this.containerElement = bQuery.generateDiv('game-element');
-  this.template = new SolitaireTemplate(this.containerElement);
+  this.template = new Solitaire(this.containerElement);
   this._declareElements();
 };
 
