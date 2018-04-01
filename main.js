@@ -1,21 +1,15 @@
 
 function Environment () {
-  this.mainElement = null;
-  this.splashElement = null;
-  this.splashButtonElement = null;
-  this.gameOverElement = null;
-  this.gameOverButtonElement = null;
-
-  this._stage = null;
-  this._lastStage = null;
-  this.game = null;
-
   var self = this;
-  self.handleClickSplash = function () {
-    self.destroySplash();
-    self.buildGame();
-    self._reportState();
-  };
+  self.mainElement = null;
+  self.gameOverElement = null;
+  self.gameOverButtonElement = null;
+
+  self._stage = null;
+  self._lastStage = null;
+
+  self.game = null;
+  self.splash = null;
 
   self.handleClickGameOver = function () {
     self.destroyGameOver();
@@ -23,25 +17,31 @@ function Environment () {
     self._reportState();
   };
 
-  this.init();
+  self._init();
 }
 
-Environment.prototype.init = function () {
-  this._setupMainElement();
+Environment.prototype._init = function () {
+  var self = this;
+  self._setupMainElement();
 };
 
 Environment.prototype.buildSplash = function () {
-  this._stage = 'splash';
+  var self = this;
+  self._stage = 'splash';
 
-  this._setupSplashElement();
-  this._setupSplashButtonElement();
-  bQuery.appendTo(this.mainElement, this.splashElement);
+  self.splash = new Splash(self.mainElement);
+  self.splash.onClick(function () {
+    self.destroySplash();
+    self.buildGame();
+    self._reportState();
+  });
 };
 
 Environment.prototype.destroySplash = function () {
-  this._saveLastStage();
-  this.splashElement.remove();
-  this.splashButtonElement.removeEventListener('click', this.handleClickSplash);
+  var self = this;
+  self._saveLastStage();
+  self.splash.destroy();
+  self.splash = null;
 };
 
 Environment.prototype.buildGame = function () {
@@ -57,56 +57,59 @@ Environment.prototype.buildGame = function () {
 };
 
 Environment.prototype.destroyGame = function () {
-  this._saveLastStage();
+  var self = this;
+  self._saveLastStage();
 
-  this.game.destroy();
-  this.game = null;
+  self.game.destroy();
+  self.game = null;
 };
 
 Environment.prototype.buildGameOver = function () {
-  this._stage = 'gameover';
-  this._setupGameOverElement();
-  this._setupGameOverButtonElement();
-  bQuery.appendTo(this.mainElement, this.gameOverElement);
+  var self = this;
+  self._stage = 'gameover';
+  self._setupGameOverElement();
+  self._setupGameOverButtonElement();
+  bQuery.appendTo(self.mainElement, self.gameOverElement);
 };
 
 Environment.prototype.destroyGameOver = function () {
-  this._saveLastStage();
+  var self = this;
+  self._saveLastStage();
 
-  this.gameOverElement.remove();
-  this.gameOverButtonElement.removeEventListener('click', this.handleClickGameOver);
+  self.gameOverElement.remove();
+  self.gameOverButtonElement.removeEventListener('click', self.handleClickGameOver);
 };
 
 Environment.prototype._reportState = function () {
-  console.log('From: ' + this._lastStage + ' -> ' + this._stage);
+  var self = this;
+  console.log('From: ' + self._lastStage + ' -> ' + self._stage);
 };
 
 Environment.prototype._saveLastStage = function () {
-  this._lastStage = this._stage;
+  var self = this;
+  self._lastStage = self._stage;
 };
 
 Environment.prototype._setupMainElement = function () {
-  this.mainElement = bQuery.getById('main-element');
+  var self = this;
+  self.mainElement = bQuery.getById('main-element');
 };
 
 Environment.prototype._setupSplashElement = function () {
-  this.splashElement = bQuery.generateDiv('splash-element');
-};
-
-Environment.prototype._setupSplashButtonElement = function () {
-  this.splashButtonElement = bQuery.generateButton('Go Game');
-  bQuery.addEventClickTo(this.splashButtonElement, this.handleClickSplash);
-  bQuery.appendTo(this.splashElement, this.splashButtonElement);
+  var self = this;
+  self.splashElement = bQuery.generateDiv('splash-element');
 };
 
 Environment.prototype._setupGameOverButtonElement = function () {
-  this.gameOverButtonElement = bQuery.generateButton('Restart');
-  bQuery.addEventClickTo(this.gameOverButtonElement, this.handleClickGameOver);
-  bQuery.appendTo(this.gameOverElement, this.gameOverButtonElement);
+  var self = this;
+  self.gameOverButtonElement = bQuery.generateButton('Restart');
+  bQuery.addEventClickTo(self.gameOverButtonElement, self.handleClickGameOver);
+  bQuery.appendTo(self.gameOverElement, self.gameOverButtonElement);
 };
 
 Environment.prototype._setupGameOverElement = function () {
-  this.gameOverElement = bQuery.generateDiv('gameover-element');
+  var self = this;
+  self.gameOverElement = bQuery.generateDiv('gameover-element');
 };
 
 window.addEventListener('DOMContentLoaded', function () {

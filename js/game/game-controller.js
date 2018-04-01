@@ -45,10 +45,11 @@ function Game (mainElement) {
 }
 
 Game.prototype.init = function () {
-  this._setupGameLayout();
-  this._setupGameData();
-  this._showInitialsCards();
-  this._setEventListeners();
+  var self = this;
+  self._setupGameLayout();
+  self._setupGameData();
+  self._showInitialsCards();
+  self._setEventListeners();
 };
 
 Game.prototype._computeMovementClick = function (clickId) {
@@ -86,23 +87,25 @@ Game.prototype._computeMovement = function (origin, destination) {
 };
 
 Game.prototype._updateStateGame = function () {
-  this.movements += 1;
-  if (this.data.isAceCompleted()) {
-    this.gameOver();
+  var self = this;
+  self.movements += 1;
+  if (self.data.isAceCompleted()) {
+    self.gameOver();
   }
 };
 
 Game.prototype._checkValidMovement = function (origin, destination, cardId, callback) {
+  var self = this;
   var valid = false;
   var points = 0;
-  var cardGoing = this.data.getCardFrom(origin, cardId);
-  var cardReciving = this.data.getCardFrom(destination);
+  var cardGoing = self.data.getCardFrom(origin, cardId);
+  var cardReciving = self.data.getCardFrom(destination);
 
   var toPile = destination.includes(TYPE.pile);
   var toAce = destination.includes(TYPE.ace);
-  if (toPile && this._isCorrectPositionPile(cardGoing, cardReciving)) {
+  if (toPile && self._isCorrectPositionPile(cardGoing, cardReciving)) {
     valid = true;
-  } else if (toAce && this._isCorrectPositionAce(cardGoing, cardReciving)) {
+  } else if (toAce && self._isCorrectPositionAce(cardGoing, cardReciving)) {
     valid = true;
     points = cardGoing.point;
   }
@@ -136,18 +139,21 @@ Game.prototype._computeStackClick = function () {
 };
 
 Game.prototype._resetMovement = function () {
-  this.layout.unselectCard(this.previousCard);
-  this.previousMovement = null;
-  this.previousCard = null;
+  var self = this;
+  self.layout.unselectCard(self.previousCard);
+  self.previousMovement = null;
+  self.previousCard = null;
 };
 
 Game.prototype._setupGameLayout = function () {
-  this.layout = new Layout(this._handleFlippedCardClick, this._handleCardClick);
-  bQuery.appendTo(this.mainElement, this.layout.containerElement);
+  var self = this;
+  self.layout = new GameView(self._handleFlippedCardClick, self._handleCardClick);
+  bQuery.appendTo(self.mainElement, self.layout.containerElement);
 };
 
 Game.prototype._setupGameData = function () {
-  this.data = new Data();
+  var self = this;
+  self.data = new GameModel();
 };
 
 Game.prototype._showInitialsCards = function () {
@@ -161,26 +167,30 @@ Game.prototype._showInitialsCards = function () {
 };
 
 Game.prototype._setEventListeners = function () {
-  bQuery.addEventClickTo(this.layout.button, this._handleClickGameOver);
-  bQuery.addEventClickTo(this.layout.stackCardElement, this._handleStackCardClick);
-  bQuery.addEventClickTo(this.layout.flippedCardElement, this._handleMovementClick);
-  bQuery.addEventClickTo(this.layout.aceSpaceElement.children, this._handleMovementClick);
-  bQuery.addEventClickTo(this.layout.pileSpaceElement.children, this._handleMovementClick);
+  var self = this;
+  bQuery.addEventClickTo(self.layout.buttonElement, self._handleClickGameOver);
+  bQuery.addEventClickTo(self.layout.stackCardElement, self._handleStackCardClick);
+  bQuery.addEventClickTo(self.layout.flippedCardElement, self._handleMovementClick);
+  bQuery.addEventClickTo(self.layout.aceSpaceElement.children, self._handleMovementClick);
+  bQuery.addEventClickTo(self.layout.pileSpaceElement.children, self._handleMovementClick);
 };
 
 Game.prototype._removeEventListeners = function () {
-  bQuery.removeEventClickTo(this.layout.button, this._handleClickGameOver);
-  bQuery.removeEventClickTo(this.layout.stackCardElement, this._handleMovementClick);
-  bQuery.removeEventClickTo(this.layout.flippedCardElement, this._handleMovementClick);
-  bQuery.removeEventClickTo(this.layout.aceSpaceElement.children, this._handleMovementClick);
-  bQuery.removeEventClickTo(this.layout.pileSpaceElement.children, this._handleMovementClick);
+  var self = this;
+  bQuery.removeEventClickTo(self.layout.buttonElement, self._handleClickGameOver);
+  bQuery.removeEventClickTo(self.layout.stackCardElement, self._handleMovementClick);
+  bQuery.removeEventClickTo(self.layout.flippedCardElement, self._handleMovementClick);
+  bQuery.removeEventClickTo(self.layout.aceSpaceElement.children, self._handleMovementClick);
+  bQuery.removeEventClickTo(self.layout.pileSpaceElement.children, self._handleMovementClick);
 };
 
 Game.prototype.onGameOver = function (callback) {
-  this.gameOver = callback;
+  var self = this;
+  self.gameOver = callback;
 };
 
 Game.prototype.destroy = function () {
-  this._removeEventListeners();
-  bQuery.remove(this.layout.containerElement);
+  var self = this;
+  self._removeEventListeners();
+  bQuery.remove(self.layout.containerElement);
 };

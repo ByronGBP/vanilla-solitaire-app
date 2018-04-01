@@ -1,4 +1,4 @@
-function Data () {
+function GameModel () {
   this.stackCards = {};
   this.flippedCards = {};
   this.aceSpaceCards = {};
@@ -6,18 +6,18 @@ function Data () {
   this._init();
 }
 
-Data.prototype._init = function () {
+GameModel.prototype._init = function () {
   this._generateStackDeck();
   this._shuffleCards();
   this._generatePileDeck();
   this._generateAceDeck();
 };
 
-Data.prototype.getInitialsCards = function (callback) {
+GameModel.prototype.getInitialsCards = function (callback) {
   callback(this.pileSpaceCards, this.stackCards);
 };
 
-Data.prototype.getCardFrom = function (origin, idCard) {
+GameModel.prototype.getCardFrom = function (origin, idCard) {
   var idx = 0;
   if (idCard) {
     var infoCard = this._getInfoCardFromId(idCard);
@@ -33,7 +33,7 @@ Data.prototype.getCardFrom = function (origin, idCard) {
   }
 };
 
-Data.prototype.getCardsFrom = function (origin, idCard, callback) {
+GameModel.prototype.getCardsFrom = function (origin, idCard, callback) {
   var cards = null;
   var idx = this._getIdxFromId(idCard) + 1;
   if (origin.includes(TYPE.flipped)) {
@@ -55,7 +55,7 @@ Data.prototype.getCardsFrom = function (origin, idCard, callback) {
   }
 };
 
-Data.prototype.addCardsTo = function (destination, cards, callback) {
+GameModel.prototype.addCardsTo = function (destination, cards, callback) {
   if (destination.includes(TYPE.ace)) {
     this._pushCardsTo(this.aceSpaceCards, cards, destination);
     callback(this.aceSpaceCards[destination]);
@@ -66,7 +66,7 @@ Data.prototype.addCardsTo = function (destination, cards, callback) {
   }
 };
 
-Data.prototype.isAceCompleted = function () {
+GameModel.prototype.isAceCompleted = function () {
   for (var key in this.aceSpaceCards) {
     if (this.aceSpaceCards[key].length !== 13) {
       return false;
@@ -75,7 +75,7 @@ Data.prototype.isAceCompleted = function () {
   return true;
 };
 
-Data.prototype.flipCard = function (idCard, callback) {
+GameModel.prototype.flipCard = function (idCard, callback) {
   var infoCard = this._getInfoCardFromId(idCard);
   var deck = infoCard.deck;
   var idx = infoCard.idx;
@@ -86,7 +86,7 @@ Data.prototype.flipCard = function (idCard, callback) {
   callback(this.pileSpaceCards[deck], deck);
 };
 
-Data.prototype.restartStackCards = function () {
+GameModel.prototype.restartStackCards = function () {
   while (this.flippedCards[TYPE.flipped].length > 0) {
     var card = this.flippedCards[TYPE.flipped].pop();
     card.flip = false;
@@ -94,7 +94,7 @@ Data.prototype.restartStackCards = function () {
   }
 };
 
-Data.prototype._getCardsFrom = function (deck, idx, origin) {
+GameModel.prototype._getCardsFrom = function (deck, idx, origin) {
   var cards = [];
   this._checkObject(deck, origin);
   if (deck[origin].length === 0) {
@@ -107,14 +107,14 @@ Data.prototype._getCardsFrom = function (deck, idx, origin) {
   return cards;
 };
 
-Data.prototype._pushCardsTo = function (deck, cards, origin) {
+GameModel.prototype._pushCardsTo = function (deck, cards, origin) {
   this._checkObject(deck, origin);
   for (var i = 0; i < cards.length; i++) {
     deck[origin].unshift(cards[i]);
   }
 };
 
-Data.prototype._generateStackDeck = function () {
+GameModel.prototype._generateStackDeck = function () {
   var length = CARDS.length;
   this._checkObject(this.stackCards, TYPE.stack);
   for (var i = 0; i < length; i++) {
@@ -123,7 +123,7 @@ Data.prototype._generateStackDeck = function () {
   }
 };
 
-Data.prototype._generatePileDeck = function () {
+GameModel.prototype._generatePileDeck = function () {
   var i = 0;
   while (i < 7) {
     var flipped = true;
@@ -138,14 +138,14 @@ Data.prototype._generatePileDeck = function () {
   }
 };
 
-Data.prototype._generateAceDeck = function () {
+GameModel.prototype._generateAceDeck = function () {
   for (var i = 0; i < 4; i++) {
     var key = TYPE.ace + i;
     this._checkObject(this.aceSpaceCards, key);
   }
 };
 
-Data.prototype._shuffleCards = function () {
+GameModel.prototype._shuffleCards = function () {
   var lenght = CARDS.length;
 
   for (var i = 0; i < lenght; i++) {
@@ -156,17 +156,17 @@ Data.prototype._shuffleCards = function () {
   }
 };
 
-Data.prototype._checkObject = function (object, key) {
+GameModel.prototype._checkObject = function (object, key) {
   if (!object[key]) {
     object[key] = [];
   }
 };
 
-Data.prototype._getIdxFromId = function (id) {
+GameModel.prototype._getIdxFromId = function (id) {
   return Number(id.slice(-1));
 };
 
-Data.prototype._getInfoCardFromId = function (cardId) {
+GameModel.prototype._getInfoCardFromId = function (cardId) {
   var infoCard = cardId.split('-card-');
   var infoCardObj = {
     deck: infoCard[0],

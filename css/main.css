@@ -28,7 +28,39 @@ body {
   display: flex;
 }
 
-/* -- CARD -- */
+/* -- Splash -- */
+#splash-start {
+  position: absolute;
+  justify-content: center;
+  top: -0px;
+  height: 100%;
+  width: 100%;
+
+}
+
+#btn-splash {
+  font: inherit;
+  line-height: 8vw;;
+  color: black;
+  position: absolute;
+  top: 40vw;
+  height: fit-content;
+  background: transparent;
+  padding: 1.5vw;
+  border: 2px solid black;
+  border-radius: 2vw;
+  transition: background 0.4s ease-in-out, border 0.2s ease-out, color 0.2s ease-out;
+
+}
+
+#btn-splash:hover {
+  color: white;
+  background: rgba(0,0,0,1);
+  border: 2px solid white;
+}
+
+
+/* -- Game -- */
 
 .card {
   position: relative;
