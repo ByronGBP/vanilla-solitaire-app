@@ -83,13 +83,8 @@ GameView.prototype._createCard = function (card, id) {
   var divCard = null;
   if (flip) {
     divCard = bQuery.generateDiv(id, ['card', card.color, 'georgia-font']);
-    var suit = card.suit;
-    var value = card.value;
-    var color = card.color;
-    var suitShadowElem = bQuery.generateText('h3', suit, TYPE.shadowSuit + color);
-    var suitElem = bQuery.generateText('h3', suit);
-    bQuery._setAttribute(divCard, 'number', value);
-    bQuery.appendTo(divCard, [suitShadowElem, suitElem]);
+    var cardElement = new CardTemplate(card.suit, card.value, card.color);
+    cardElement.appendCardTo(divCard);
     bQuery.addEventClickTo(divCard, self._handleFlippedCardClick);
   } else {
     divCard = bQuery.generateDiv(id, ['card', 'flipped', 'georgia-font']);
